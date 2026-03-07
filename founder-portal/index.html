@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LanaYa Founder's Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #f3f4f6;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 32px 40px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+        }
+
+        .header h1 span {
+            color: #d4af37;
+        }
+
+        .header .admin {
+            font-size: 12px;
+            color: #6b7280;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .gen-section {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-gold {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            background: #e6c347;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .stats {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .stats strong {
+            color: #d4af37;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10b981;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .codes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .code-row {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: #0a0a0f;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s;
+        }
+
+        .code-row:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .code-val {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #d4af37;
+            width: 200px;
+        }
+
+        .code-meta {
+            flex: 1;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .code-meta .used-by {
+            color: #10b981;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .badge-used {
+            background: rgba(107, 114, 128, 0.15);
+            color: #6b7280;
+        }
+
+        .badge-deactivated {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .code-actions button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: #9ca3af;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .code-actions button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f3f4f6;
+        }
+
+        .toggle {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: #374151;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle.on {
+            background: #10b981;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+
+        .toggle.on::after {
+            transform: translateX(18px);
+        }
+
+        .section-label {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Lana<span>Ya</span> Founder's Portal</h1>
+        <span class="admin">👑 Admin: founder_001</span>
+    </div>
+
+    <div class="container">
+        <div class="gen-section">
+            <button class="btn btn-gold" onclick="generateCodes()">✨ Generate 5 Codes</button>
+            <span class="stats" id="stats"></span>
+        </div>
+
+        <div class="section-label">Invite Codes</div>
+        <div class="codes-list" id="codesList"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let codes = [
+            { code: '777777', status: 'ACTIVE', usedBy: null, createdAt: '2026-03-01' },
+            { code: '888888', status: 'USED', usedBy: 'usr_8x2k', createdAt: '2026-03-01', redeemedAt: '2026-03-05' },
+            { code: '999999', status: 'ACTIVE', usedBy: null, createdAt: '2026-03-01' },
+        ];
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function generateCodes() {
+            for (let i = 0; i < 5; i++) {
+                const code = String(100000 + Math.floor(Math.random() * 899999));
+                codes.unshift({ code, status: 'ACTIVE', usedBy: null, createdAt: new Date().toISOString().split('T')[0] });
+            }
+            showToast('✨ 5 new codes generated!');
+            render();
+        }
+
+        function toggleCode(code) {
+            const c = codes.find(x => x.code === code);
+            if (!c || c.status === 'USED') return;
+            c.status = c.status === 'ACTIVE' ? 'DEACTIVATED' : 'ACTIVE';
+            render();
+        }
+
+        function copyInvite(code) {
+            const msg = `🌟 You've been invited to LanaYa — the smartest way to send money in Colombia!\n\nEnter this exclusive code to unlock the app:\n\n🔑 ${code}\n\nDownload: https://lanaya.co/beta\nPowered by Bre-B instant rails ⚡`;
+            navigator.clipboard.writeText(msg).then(() => showToast('📋 Invite message copied!'));
+        }
+
+        function render() {
+            const list = document.getElementById('codesList');
+            const active = codes.filter(c => c.status === 'ACTIVE').length;
+            const used = codes.filter(c => c.status === 'USED').length;
+            document.getElementById('stats').innerHTML = `<strong>${codes.length}</strong> total · <strong>${active}</strong> active · <strong>${used}</strong> used`;
+
+            list.innerHTML = codes.map(c => {
+                const badgeClass = c.status === 'ACTIVE' ? 'badge-active' : c.status === 'USED' ? 'badge-used' : 'badge-deactivated';
+                const isToggleOn = c.status === 'ACTIVE';
+                return `
+          <div class="code-row">
+            <span class="code-val">${c.code}</span>
+            <div class="code-meta">
+              <span class="badge ${badgeClass}">${c.status}</span>
+              ${c.usedBy ? `<span class="used-by"> · Redeemed by ${c.usedBy}</span>` : ` · Created ${c.createdAt}`}
+            </div>
+            <div class="code-actions">
+              <button onclick="copyInvite('${c.code}')">📋 Copy Invite</button>
+              ${c.status !== 'USED' ? `<div class="toggle ${isToggleOn ? 'on' : ''}" onclick="toggleCode('${c.code}')"></div>` : ''}
+            </div>
+          </div>`;
+            }).join('');
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

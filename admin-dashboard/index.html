@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LanaYa Admin Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #f3f4f6; min-height: 100vh; }
+    
+    .header { padding: 24px 40px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 1px; }
+    .header h1 span { color: #d4af37; }
+    .header .status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #9ca3af; }
+    .header .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 32px 40px; }
+    .card { background: #111827; border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.04); }
+    .card.wide { grid-column: span 2; }
+    .card.full { grid-column: span 4; }
+    .card-label { font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 8px; }
+    .card-value { font-size: 32px; font-weight: 700; }
+    .emerald { color: #10b981; }
+    .gold { color: #d4af37; }
+    .card-sub { font-size: 13px; color: #6b7280; margin-top: 4px; }
+
+    .health-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .health-item { background: #1a1a2e; border-radius: 12px; padding: 16px; }
+    .health-item .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .health-item .detail { font-size: 12px; color: #9ca3af; }
+    .health-item .indicator { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; }
+    .online { background: #10b981; }
+    .degraded { background: #f59e0b; }
+
+    .chart-container { margin-top: 16px; height: 200px; display: flex; align-items: flex-end; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.06); position: relative; }
+    .bar { flex: 1; border-radius: 6px 6px 0 0; position: relative; transition: height 0.6s ease; cursor: pointer; min-width: 20px; }
+    .bar:hover { opacity: 0.85; }
+    .bar .tooltip { display: none; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #1e1e2e; padding: 4px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap; color: #f3f4f6; }
+    .bar:hover .tooltip { display: block; }
+    .bar-usd { background: linear-gradient(to top, #047857, #10b981); }
+    .bar-cop { background: linear-gradient(to top, #92400e, #d4af37); }
+    .chart-labels { display: flex; justify-content: space-around; margin-top: 8px; }
+    .chart-labels span { font-size: 11px; color: #6b7280; }
+    .legend { display: flex; gap: 24px; margin-top: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #9ca3af; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    .table { width: 100%; margin-top: 16px; border-collapse: collapse; }
+    .table th { text-align: left; font-size: 12px; color: #6b7280; font-weight: 500; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .table td { padding: 12px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: rgba(16,185,129,0.15); color: #10b981; }
+    .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Lana<span>Ya</span> Admin</h1>
+    <div class="status"><span class="dot"></span> All systems operational · March 7, 2026</div>
+  </div>
+
+  <div class="grid">
+    <!-- KPIs -->
+    <div class="card">
+      <div class="card-label">Total USD Volume (Today)</div>
+      <div class="card-value emerald">$12,450</div>
+      <div class="card-sub">↑ 18% vs yesterday</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total COP Volume (Today)</div>
+      <div class="card-value gold">$48.9M</div>
+      <div class="card-sub">↑ 12% vs yesterday</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Active Bre-B Transfers</div>
+      <div class="card-value" style="color:#f3f4f6;">23</div>
+      <div class="card-sub">3 currently processing</div>
+    </div>
+    <div class="card">
+      <div class="card-label">FX Rate (Mid-Market)</div>
+      <div class="card-value" style="color:#f3f4f6;">3,985</div>
+      <div class="card-sub">Cached · refreshes in 42s</div>
+    </div>
+
+    <!-- Volume Chart -->
+    <div class="card wide">
+      <div class="card-label">USD/COP Swap Volume (7 Days)</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div> USD Swaps</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d4af37;"></div> COP Swaps</div>
+      </div>
+      <div class="chart-container" id="volumeChart"></div>
+      <div class="chart-labels" id="chartLabels"></div>
+    </div>
+
+    <!-- Bre-B Health -->
+    <div class="card wide">
+      <div class="card-label">Bre-B Integration Health</div>
+      <div class="health-grid">
+        <div class="health-item">
+          <div class="name"><span class="indicator online"></span>DICE Directory</div>
+          <div class="detail">Lookup avg: 340ms · 99.8% uptime</div>
+        </div>
+        <div class="health-item">
+          <div class="name"><span class="indicator online"></span>ACH Rail</div>
+          <div class="detail">Transfer avg: 4.2s · 99.6% uptime</div>
+        </div>
+        <div class="health-item">
+          <div class="name"><span class="indicator degraded"></span>PSE Gateway</div>
+          <div class="detail">Bill pay avg: 2.1s · 97.2% uptime</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card full">
+      <div class="card-label">Recent Transactions</div>
+      <table class="table">
+        <thead><tr><th>Time</th><th>User</th><th>Type</th><th>Amount</th><th>FX Rate</th><th>Bre-B Ref</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>13:42</td><td>usr_8x2k</td><td>USD→COP</td><td class="emerald">$150.00</td><td>3,925</td><td>BREB-1772908920-0042</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+          <tr><td>13:38</td><td>usr_4m1n</td><td>Bill Pay</td><td class="gold">$142,300</td><td>—</td><td>PSE-1772908712</td><td><span class="badge badge-success">Paid</span></td></tr>
+          <tr><td>13:35</td><td>usr_7p9q</td><td>USD→COP</td><td class="emerald">$500.00</td><td>3,925</td><td>BREB-1772908501-1138</td><td><span class="badge badge-pending">Processing</span></td></tr>
+          <tr><td>13:31</td><td>usr_2r5s</td><td>COP→COP</td><td class="gold">$2,500,000</td><td>—</td><td>BREB-1772908260-0891</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+          <tr><td>13:28</td><td>usr_8x2k</td><td>USD→COP</td><td class="emerald">$75.00</td><td>3,926</td><td>BREB-1772908080-0563</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Volume chart data (simulated 7-day)
+    const data = [
+      { day: 'Mon', usd: 8200, cop: 32000000 },
+      { day: 'Tue', usd: 9100, cop: 36000000 },
+      { day: 'Wed', usd: 7800, cop: 31000000 },
+      { day: 'Thu', usd: 11200, cop: 44000000 },
+      { day: 'Fri', usd: 14500, cop: 57000000 },
+      { day: 'Sat', usd: 6200, cop: 24000000 },
+      { day: 'Sun', usd: 12450, cop: 48900000 },
+    ];
+
+    const chart = document.getElementById('volumeChart');
+    const labels = document.getElementById('chartLabels');
+
+    const maxUsd = Math.max(...data.map(d => d.usd));
+    const maxCop = Math.max(...data.map(d => d.cop));
+
+    data.forEach(d => {
+      const usdBar = document.createElement('div');
+      usdBar.className = 'bar bar-usd';
+      usdBar.style.height = `${(d.usd / maxUsd) * 180}px`;
+      usdBar.innerHTML = `<div class="tooltip">$${d.usd.toLocaleString()} USD</div>`;
+
+      const copBar = document.createElement('div');
+      copBar.className = 'bar bar-cop';
+      copBar.style.height = `${(d.cop / maxCop) * 180}px`;
+      copBar.innerHTML = `<div class="tooltip">$${(d.cop/1000000).toFixed(1)}M COP</div>`;
+
+      chart.appendChild(usdBar);
+      chart.appendChild(copBar);
+
+      const label = document.createElement('span');
+      label.textContent = d.day;
+      labels.appendChild(label);
+      labels.appendChild(document.createElement('span')); // spacer for pair
+    });
+  </script>
+</body>
+</html>

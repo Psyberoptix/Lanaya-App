@@ -1,0 +1,28 @@
+name: lana_mobile
+description: A dual-currency (USD/COP) wallet MVP for the Colombian market.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  google_fonts: ^6.1.0
+  intl: ^0.18.1
+  http: ^1.1.0
+  local_auth: ^2.2.0
+  mobile_scanner: ^4.0.1
+  share_plus: ^7.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
