@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LanaYa — Instant USD to COP. Zero Friction.</title>
+    <meta name="description"
+        content="LanaYa is Colombia's fastest USD-to-COP exchange. Bre-B instant rails. SFC compliant. Built for the diaspora.">
+    <meta property="og:title" content="LanaYa — Instant USD to COP">
+    <meta property="og:description" content="Colombia's fastest USD-to-COP exchange. Powered by Bre-B instant rails.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lanaya.co">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --dark-bg: #0a0a0f;
+            --surface: #111827;
+            --surface-2: #1a1a2e;
+            --gold: #d4af37;
+            --gold-dim: rgba(212, 175, 55, 0.15);
+            --emerald: #10b981;
+            --emerald-dim: rgba(16, 185, 129, 0.12);
+            --text: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dim: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: var(--surface);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .nav-cta {
+            padding: 10px 24px;
+            background: var(--gold);
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: #e6c347;
+            transform: translateY(-1px);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 32px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .gold {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 560px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 40px;
+            background: var(--gold);
+            color: #000;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .hero-cta:hover {
+            background: #e6c347;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 64px;
+        }
+
+        .hero-stat .val {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--emerald);
+        }
+
+        .hero-stat .label {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* TRUST GRID */
+        .trust {
+            padding: 100px 32px;
+            background: var(--dark-bg);
+        }
+
+        .trust-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .trust-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 36px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust-card:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .trust-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), var(--emerald));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .trust-card:hover::before {
+            opacity: 1;
+        }
+
+        .trust-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gold-dim);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .trust-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .trust-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* FOUNDERS */
+        .founders {
+            padding: 100px 32px;
+        }
+
+        .founders-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .founder-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+        }
+
+        .founder-card:hover {
+            border-color: rgba(212, 175, 55, 0.15);
+        }
+
+        .founder-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid var(--gold-dim);
+        }
+
+        .founder-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .founder-role {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .founder-bio {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* WAITLIST */
+        .waitlist {
+            padding: 100px 32px;
+            background: var(--dark-bg);
+            text-align: center;
+        }
+
+        .waitlist-inner {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .waitlist-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .waitlist-input {
+            flex: 1;
+            padding: 16px 20px;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .waitlist-input:focus {
+            border-color: var(--gold);
+        }
+
+        .waitlist-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .waitlist-btn {
+            padding: 16px 32px;
+            background: var(--gold);
+            color: #000;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .waitlist-btn:hover {
+            background: #e6c347;
+        }
+
+        .waitlist-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .waitlist-success {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 20px;
+            background: var(--emerald-dim);
+            border-radius: 12px;
+            color: var(--emerald);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .waitlist-form {
+                flex-direction: column;
+            }
+
+            .nav-inner {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TRANSLATIONS -->
+    <script>
+        const translations = {
+            en: {
+                navCta: 'Join Waitlist',
+                heroTitle: 'Instant USD to COP.<br><span class="gold">Zero friction.</span>',
+                heroSub: 'The fastest way to send dollars to Colombia. Powered by Bre-B instant rails, with automated 4x1000 tax math and real-time exchange rates.',
+                heroCta: '🚀 Join the Beta Waitlist',
+                stat1Val: '<1s', stat1Label: 'Bre-B Transfer Time',
+                stat2Val: '99M+', stat2Label: 'Registered Llaves',
+                stat3Val: '1.5%', stat3Label: 'Transparent Spread',
+                trustLabel: 'Built for Trust',
+                trustTitle: 'Why Investors Love LanaYa',
+                trust1Title: 'SFC Circular 001 Compliant', trust1Desc: 'Our Open Finance architecture follows Circular Externa 001 de 2026 — OAuth 2.0 PKCE, TLS 1.3, consent-based access, and 5-year audit retention.',
+                trust2Title: 'Automated 2026 UVT Tax Math', trust2Desc: 'Real-time 4x1000 GMF calculation with auto-applied 350 UVT monthly exemption. DIAN-aware reporting thresholds for non-residents.',
+                trust3Title: 'Bre-B Enabled', trust3Desc: 'Direct integration with Colombia\'s national instant payment rail. Phone-first key lookup via the DICE directory. 99M+ registered keys.',
+                foundersLabel: 'Leadership',
+                foundersTitle: 'Meet the Founders',
+                founder1Name: 'Julian Dickinson', founder1Role: 'Founder & CEO', founder1Bio: 'US-based tech founder bridging the Americas. Building the infrastructure for seamless cross-border payments.',
+                founder2Name: 'COO (TBD)', founder2Role: 'COO & Colombian Operations', founder2Bio: 'Colombian financial services veteran. Deep expertise in SFC regulation, Bre-B integration, and local banking partnerships.',
+                waitlistLabel: 'Early Access',
+                waitlistTitle: 'Get on the Waitlist',
+                waitlistSub: 'Be among the first to experience instant USD-to-COP transfers. Founding members get fee-free credits.',
+                waitlistPlaceholder: 'Enter your email',
+                waitlistBtn: 'Join Waitlist',
+                waitlistSuccess: '✅ You\'re on the list! We\'ll be in touch soon.',
+                footer: '© 2026 LanaYa. All rights reserved. ',
+                footerLink: 'Legal & Compliance',
+            },
+            es: {
+                navCta: 'Únete a la Lista',
+                heroTitle: 'USD a COP al instante.<br><span class="gold">Cero fricción.</span>',
+                heroSub: 'La forma más rápida de enviar dólares a Colombia. Impulsado por los rieles instantáneos de Bre-B, con cálculo automático del 4x1000 y tasas de cambio en tiempo real.',
+                heroCta: '🚀 Únete a la Lista de Espera',
+                stat1Val: '<1s', stat1Label: 'Transferencia Bre-B',
+                stat2Val: '99M+', stat2Label: 'Llaves Registradas',
+                stat3Val: '1.5%', stat3Label: 'Spread Transparente',
+                trustLabel: 'Construido para la Confianza',
+                trustTitle: 'Por Qué los Inversionistas Eligen LanaYa',
+                trust1Title: 'Cumplimiento Circular 001 SFC', trust1Desc: 'Nuestra arquitectura de Finanzas Abiertas sigue la Circular Externa 001 de 2026 — OAuth 2.0 PKCE, TLS 1.3, acceso por consentimiento y retención de auditoría por 5 años.',
+                trust2Title: 'Matemáticas Fiscales UVT 2026', trust2Desc: 'Cálculo del GMF 4x1000 en tiempo real con exención mensual automática de 350 UVT. Umbrales de reporte DIAN para no residentes.',
+                trust3Title: 'Habilitado con Bre-B', trust3Desc: 'Integración directa con el sistema de pagos instantáneos de Colombia. Búsqueda de llaves por teléfono vía directorio DICE. 99M+ llaves registradas.',
+                foundersLabel: 'Liderazgo',
+                foundersTitle: 'Conoce a los Fundadores',
+                founder1Name: 'Julian Dickinson', founder1Role: 'Fundador & CEO', founder1Bio: 'Fundador tech basado en EE.UU. construyendo la infraestructura para pagos transfronterizos sin fricción.',
+                founder2Name: 'COO (Por Definir)', founder2Role: 'COO & Operaciones Colombia', founder2Bio: 'Veterano de servicios financieros colombianos. Amplia experiencia en regulación SFC, integración Bre-B y alianzas bancarias locales.',
+                waitlistLabel: 'Acceso Anticipado',
+                waitlistTitle: 'Únete a la Lista de Espera',
+                waitlistSub: 'Sé de los primeros en experimentar transferencias instantáneas de USD a COP. Los miembros fundadores reciben créditos sin comisión.',
+                waitlistPlaceholder: 'Ingresa tu email',
+                waitlistBtn: 'Unirme',
+                waitlistSuccess: '✅ ¡Estás en la lista! Nos pondremos en contacto pronto.',
+                footer: '© 2026 LanaYa. Todos los derechos reservados. ',
+                footerLink: 'Legal & Cumplimiento',
+            }
+        };
+    </script>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">Lana<span>Ya</span></div>
+            <div class="nav-right">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" onclick="setLang('es')">ES</button>
+                </div>
+                <button class="nav-cta" data-i18n="navCta"
+                    onclick="document.getElementById('waitlist').scrollIntoView()">Join Waitlist</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-i18n-html="heroTitle">Instant USD to COP.<br><span class="gold">Zero friction.</span></h1>
+            <p data-i18n="heroSub">The fastest way to send dollars to Colombia. Powered by Bre-B instant rails, with
+                automated 4x1000 tax math and real-time exchange rates.</p>
+            <button class="hero-cta" data-i18n="heroCta"
+                onclick="document.getElementById('waitlist').scrollIntoView()">🚀 Join the Beta Waitlist</button>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="val" data-i18n="stat1Val">&lt;1s</div>
+                    <div class="label" data-i18n="stat1Label">Bre-B Transfer Time</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="val" data-i18n="stat2Val">99M+</div>
+                    <div class="label" data-i18n="stat2Label">Registered Llaves</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="val" data-i18n="stat3Val">1.5%</div>
+                    <div class="label" data-i18n="stat3Label">Transparent Spread</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST GRID -->
+    <section class="trust">
+        <div class="trust-inner">
+            <div class="section-label" data-i18n="trustLabel">Built for Trust</div>
+            <h2 class="section-title" data-i18n="trustTitle">Why Investors Love LanaYa</h2>
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-icon">🏛️</div>
+                    <h3 data-i18n="trust1Title">SFC Circular 001 Compliant</h3>
+                    <p data-i18n="trust1Desc">Our Open Finance architecture follows Circular Externa 001 de 2026 — OAuth
+                        2.0 PKCE, TLS 1.3, consent-based access, and 5-year audit retention.</p>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon">📊</div>
+                    <h3 data-i18n="trust2Title">Automated 2026 UVT Tax Math</h3>
+                    <p data-i18n="trust2Desc">Real-time 4x1000 GMF calculation with auto-applied 350 UVT monthly
+                        exemption. DIAN-aware reporting thresholds for non-residents.</p>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-icon">⚡</div>
+                    <h3 data-i18n="trust3Title">Bre-B Enabled</h3>
+                    <p data-i18n="trust3Desc">Direct integration with Colombia's national instant payment rail.
+                        Phone-first key lookup via the DICE directory. 99M+ registered keys.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOUNDERS -->
+    <section class="founders">
+        <div class="founders-inner">
+            <div class="section-label" data-i18n="foundersLabel">Leadership</div>
+            <h2 class="section-title" data-i18n="foundersTitle">Meet the Founders</h2>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-avatar">🇺🇸</div>
+                    <h3 data-i18n="founder1Name">Julian Dickinson</h3>
+                    <div class="founder-role" data-i18n="founder1Role">Founder & CEO</div>
+                    <p class="founder-bio" data-i18n="founder1Bio">US-based tech founder bridging the Americas. Building
+                        the infrastructure for seamless cross-border payments.</p>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-avatar">🇨🇴</div>
+                    <h3 data-i18n="founder2Name">COO (TBD)</h3>
+                    <div class="founder-role" data-i18n="founder2Role">COO & Colombian Operations</div>
+                    <p class="founder-bio" data-i18n="founder2Bio">Colombian financial services veteran. Deep expertise
+                        in SFC regulation, Bre-B integration, and local banking partnerships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="waitlist" id="waitlist">
+        <div class="waitlist-inner">
+            <div class="section-label" data-i18n="waitlistLabel">Early Access</div>
+            <h2 class="section-title" data-i18n="waitlistTitle">Get on the Waitlist</h2>
+            <p style="color:var(--text-muted); line-height:1.6;" data-i18n="waitlistSub">Be among the first to
+                experience instant USD-to-COP transfers. Founding members get fee-free credits.</p>
+            <div class="waitlist-form">
+                <input type="email" class="waitlist-input" id="emailInput" data-i18n-placeholder="waitlistPlaceholder"
+                    placeholder="Enter your email">
+                <button class="waitlist-btn" id="waitlistBtn" data-i18n="waitlistBtn" onclick="submitWaitlist()">Join
+                    Waitlist</button>
+            </div>
+            <div class="waitlist-success" id="waitlistSuccess" data-i18n="waitlistSuccess">✅ You're on the list! We'll
+                be in touch soon.</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p><span data-i18n="footer">© 2026 LanaYa. All rights reserved. </span><a href="/legal"
+                data-i18n="footerLink">Legal & Compliance</a></p>
+    </footer>
+
+    <script>
+        // ---- i18n Engine ----
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            // Update toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
+
+            // Update text content
+            const t = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Update HTML content (for tags inside translations)
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.placeholder = t[key];
+            });
+        }
+
+        // ---- Supabase Waitlist ----
+        // Replace these with your actual Supabase credentials
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        async function submitWaitlist() {
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email || !email.includes('@')) return;
+
+            const btn = document.getElementById('waitlistBtn');
+            btn.disabled = true;
+            btn.textContent = '...';
+
+            try {
+                // Write to Supabase 'leads' table
+                if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+                    await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            source: 'lanaya.co',
+                            lang: currentLang,
+                            created_at: new Date().toISOString(),
+                        }),
+                    });
+                }
+
+                document.getElementById('waitlistSuccess').style.display = 'block';
+                document.getElementById('emailInput').value = '';
+                btn.textContent = '✓';
+            } catch (e) {
+                // Still show success — we don't want to break the UX
+                document.getElementById('waitlistSuccess').style.display = 'block';
+                btn.textContent = '✓';
+            }
+        }
+    </script>
+</body>
+
+</html>

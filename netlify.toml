@@ -1,0 +1,8 @@
+[build]
+  publish = "lanaya-site"
+  # No build command needed — static HTML/JS
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
