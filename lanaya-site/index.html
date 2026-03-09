@@ -11,7 +11,7 @@
     <meta property="og:description" content="Move money between the US and Colombia in under 1 second.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -155,26 +155,32 @@
         .hero {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 100px 48px 60px;
+            padding: 80px 48px 60px;
             position: relative;
             overflow: hidden;
         }
 
+        .hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Giant background text */
         .hero-headline {
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .hero-headline h1 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            font-size: clamp(80px, 14vw, 180px);
-            line-height: 0.9;
-            letter-spacing: -6px;
+            font-family: 'Bebas Neue', 'Impact', sans-serif;
+            font-weight: 400;
+            font-size: clamp(130px, 20vw, 300px);
+            line-height: 0.88;
+            letter-spacing: -2px;
             text-transform: uppercase;
             margin-bottom: 0;
         }
@@ -183,56 +189,277 @@
             display: inline-block;
             color: var(--gold);
             font-weight: 300;
-            margin: 0 8px;
-            font-size: 0.7em;
+            margin: 0 4px;
+            font-size: 0.6em;
         }
 
         .hero-sub {
-            margin-top: 24px;
+            margin-top: 16px;
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: clamp(24px, 3.5vw, 48px);
+            font-size: clamp(40px, 5.5vw, 80px);
             font-weight: 400;
             color: var(--gold);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        /* Phone mockup */
-        .phone-mockup {
+        .hero-bottom {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 32px;
             position: relative;
-            z-index: 2;
-            margin-top: 48px;
-            width: 240px;
-            height: 480px;
-            background: #111;
-            border-radius: 36px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            z-index: 5;
         }
 
-        .phone-notch {
-            width: 100px;
-            height: 24px;
+        .hero-desc {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+            max-width: 400px;
+        }
+
+        .hero-cta-row {
+            margin-top: 28px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        /* ===== 3D DEVICE SCENE — overlaps the text ===== */
+        .hero-device-scene {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            perspective: 1800px;
+            width: 520px;
+            height: 680px;
+        }
+
+        /* Ambient glow orbs */
+        .hero-glow-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.10), transparent 70%);
+            top: -10%;
+            right: -20%;
+            pointer-events: none;
+            z-index: 0;
+            animation: glowFloat 6s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
+            bottom: 0;
+            left: -10%;
+            pointer-events: none;
+            z-index: 0;
+            animation: glowFloat 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes glowFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(10px, -15px) scale(1.05);
+            }
+        }
+
+        /* ===== TRUE 3D PHONE WITH SIDES ===== */
+        .phone-mockup {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 290px;
+            height: 590px;
+            transform-style: preserve-3d;
+            animation: phoneFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+
+            0%,
+            100% {
+                transform: translateY(-50%) rotateY(14deg) rotateX(2deg) translateZ(0);
+            }
+
+            50% {
+                transform: translateY(calc(-50% - 14px)) rotateY(14deg) rotateX(2deg) translateZ(0);
+            }
+        }
+
+        /* Front face of phone */
+        .phone-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #111, #0a0a0a);
+            border-radius: 44px;
+            overflow: hidden;
+            transform: translateZ(6px);
+            border: 1.5px solid rgba(255, 255, 255, 0.10);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        /* Glass reflection */
+        .phone-front::before {
+            content: '';
+            position: absolute;
+            top: -80%;
+            left: -40%;
+            width: 180%;
+            height: 180%;
+            background: linear-gradient(125deg,
+                    rgba(255, 255, 255, 0.07) 0%,
+                    transparent 35%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Left side edge — gives real 3D depth */
+        .phone-side-left {
+            position: absolute;
+            top: 18px;
+            left: 0;
+            width: 12px;
+            height: calc(100% - 36px);
+            background: linear-gradient(to left, #2a2a2a, #1c1c1c, #141414);
+            transform: rotateY(-90deg) translateZ(0px);
+            transform-origin: left center;
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* Top edge */
+        .phone-side-top {
+            position: absolute;
+            top: 0;
+            left: 30px;
+            right: 30px;
+            height: 12px;
+            background: linear-gradient(to bottom, #222, #181818);
+            transform: rotateX(-90deg) translateZ(0px);
+            transform-origin: top center;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Bottom edge */
+        .phone-side-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 30px;
+            right: 30px;
+            height: 12px;
+            background: linear-gradient(to top, #1a1a1a, #161616);
+            transform: rotateX(90deg) translateZ(0px);
+            transform-origin: bottom center;
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* Back face */
+        .phone-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #181818, #0e0e0e);
+            border-radius: 44px;
+            transform: translateZ(-6px);
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 80px 160px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Volume buttons on left edge (visible side) */
+        .phone-vol-btn {
+            position: absolute;
+            left: -5px;
+            width: 4px;
+            background: linear-gradient(to left, #3a3a3a, #252525, #3a3a3a);
+            border-radius: 3px 0 0 3px;
+            transform: translateZ(6px);
+            box-shadow: -1px 0 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-vol-1 {
+            top: 140px;
+            height: 35px;
+        }
+
+        .phone-vol-2 {
+            top: 190px;
+            height: 55px;
+        }
+
+        .phone-vol-3 {
+            top: 255px;
+            height: 55px;
+        }
+
+        /* Dynamic Island */
+        .phone-island {
+            width: 105px;
+            height: 30px;
             background: #000;
-            border-radius: 0 0 16px 16px;
-            margin: 0 auto;
+            border-radius: 20px;
+            margin: 14px auto 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .phone-island::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1e2e1e, #0a0a0a);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .phone-island::after {
+            content: '';
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #111;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03);
         }
 
         .phone-screen {
-            padding: 24px 20px;
+            padding: 16px 18px;
         }
 
         .phone-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
 
         .phone-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
         }
 
@@ -254,11 +481,11 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .phone-balance {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
             margin-bottom: 4px;
         }
@@ -266,15 +493,15 @@
         .phone-balance-sub {
             font-size: 12px;
             color: var(--emerald);
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
 
         .phone-card {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid var(--glass-border);
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .phone-card-label {
@@ -282,7 +509,7 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .phone-card-row {
@@ -318,7 +545,7 @@
             font-size: 13px;
             border: none;
             border-radius: 12px;
-            margin-top: 16px;
+            margin-top: 12px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
@@ -345,26 +572,223 @@
             }
         }
 
-        /* Glow behind phone */
-        .phone-glow {
+        /* Home bar */
+        .phone-home-bar {
+            width: 120px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            margin: 14px auto 6px;
+        }
+
+        /* ===== FLOATING CREDIT CARD ===== */
+        .credit-card {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -30%);
-            z-index: 1;
+            width: 340px;
+            height: 210px;
+            bottom: 60px;
+            left: -20px;
+            z-index: 4;
+            transform-style: preserve-3d;
+            animation: cardFloat 6s ease-in-out infinite 0.5s;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes cardFloat {
+
+            0%,
+            100% {
+                transform: rotateY(12deg) rotateX(-8deg) rotateZ(-6deg) translateY(0);
+            }
+
+            50% {
+                transform: rotateY(12deg) rotateX(-8deg) rotateZ(-6deg) translateY(-10px);
+            }
+        }
+
+        .card-face {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d2818 0%, #0a1f14 30%, #062010 60%, #041a0c 100%);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Holographic sheen */
+        .card-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(105deg,
+                    transparent 30%,
+                    rgba(16, 185, 129, 0.08) 45%,
+                    rgba(16, 185, 129, 0.15) 50%,
+                    rgba(16, 185, 129, 0.08) 55%,
+                    transparent 70%);
+            animation: cardSheen 4s ease-in-out infinite;
             pointer-events: none;
         }
 
-        .hero-cta-row {
-            margin-top: 48px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
+        @keyframes cardSheen {
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Gold accent strip */
+        .card-face::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--emerald), transparent);
+        }
+
+        .card-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .card-brand span {
+            color: var(--gold);
+        }
+
+        .card-chip {
+            width: 42px;
+            height: 32px;
+            background: linear-gradient(145deg, #c9a84c, #a68b3a, #dbc06e);
+            border-radius: 6px;
             position: relative;
-            z-index: 2;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-chip::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 3px;
+        }
+
+        .card-chip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .card-contactless {
+            position: absolute;
+            top: 28px;
+            left: 76px;
+            width: 20px;
+            height: 24px;
+            opacity: 0.3;
+        }
+
+        .card-contactless::before,
+        .card-contactless::after {
+            content: '';
+            position: absolute;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            transform: rotate(-45deg);
+        }
+
+        .card-contactless::before {
+            width: 10px;
+            height: 10px;
+            top: 8px;
+            left: 2px;
+        }
+
+        .card-contactless::after {
+            width: 16px;
+            height: 16px;
+            top: 4px;
+            left: 0;
+        }
+
+        .card-number {
+            font-family: 'Inter', monospace;
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 12px;
+        }
+
+        .card-holder {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 500;
+        }
+
+        .card-holder-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .card-network {
+            display: flex;
+            gap: 0;
+        }
+
+        .card-network-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .card-network-circle:first-child {
+            background: #eb001b;
+        }
+
+        .card-network-circle:last-child {
+            background: #f79e1b;
+            margin-left: -10px;
         }
 
         .btn-gold {
@@ -798,9 +1222,105 @@
         }
 
         /* ===== RESPONSIVE ===== */
+        @media (max-width: 1100px) {
+            .hero {
+                padding: 100px 32px 60px;
+            }
+
+            .hero-device-scene {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                height: 580px;
+                margin-top: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .phone-mockup {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                animation-name: phoneFloatMobile;
+            }
+
+            @keyframes phoneFloatMobile {
+
+                0%,
+                100% {
+                    transform: rotateY(12deg) rotateX(2deg) translateY(0);
+                }
+
+                50% {
+                    transform: rotateY(12deg) rotateX(2deg) translateY(-12px);
+                }
+            }
+
+            .hero-headline h1 {
+                letter-spacing: -4px;
+            }
+
+            .hero-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .credit-card {
+                left: auto;
+                right: -20px;
+                bottom: 30px;
+                width: 280px;
+                height: 175px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .hero {
+                padding: 90px 20px 40px;
+            }
+
             .hero-headline h1 {
                 letter-spacing: -3px;
+                font-size: clamp(60px, 14vw, 100px);
+            }
+
+            .hero-sub {
+                font-size: clamp(24px, 6vw, 40px);
+            }
+
+            .hero-device-scene {
+                height: 480px;
+            }
+
+            .phone-mockup {
+                width: 230px;
+                height: 470px;
+            }
+
+            .credit-card {
+                width: 230px;
+                height: 145px;
+                right: -10px;
+                bottom: 10px;
+            }
+
+            .card-brand {
+                font-size: 16px;
+                margin-bottom: 14px;
+            }
+
+            .card-chip {
+                width: 34px;
+                height: 26px;
+                margin-bottom: 12px;
+            }
+
+            .card-number {
+                font-size: 11px;
             }
 
             .steps-grid {
@@ -838,11 +1358,6 @@
                 display: none;
             }
 
-            .phone-mockup {
-                width: 200px;
-                height: 400px;
-            }
-
             .footer-inner {
                 flex-direction: column;
                 gap: 8px;
@@ -876,47 +1391,114 @@
 
     <!-- HERO -->
     <section class="hero">
-        <div class="phone-glow"></div>
-        <div class="hero-headline">
-            <h1 class="reveal">USD <span class="arrow">→</span> COP</h1>
-            <div class="hero-sub reveal reveal-d1" data-i18n="heroSub">al instante</div>
-        </div>
-
-        <!-- Phone mockup -->
-        <div class="phone-mockup reveal reveal-d2">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-                <div class="phone-header">
-                    <div class="phone-logo">Lana<span>Ya</span></div>
-                    <div class="phone-badge"><span class="phone-pulse"></span> Live</div>
-                </div>
-                <div class="phone-balance-label">Your Balance</div>
-                <div class="phone-balance">$2,450.00</div>
-                <div class="phone-balance-sub">≈ 9,763,250 COP</div>
-                <div class="phone-card">
-                    <div class="phone-card-label">Exchange Rate</div>
-                    <div class="phone-card-row">
-                        <div class="phone-card-val" id="phoneRate">3,985<span class="unit">COP</span></div>
-                        <div class="phone-rate-change">▲ 0.3%</div>
-                    </div>
-                </div>
-                <div class="phone-card">
-                    <div class="phone-card-label">Bre-B Status</div>
-                    <div class="phone-card-row">
-                        <div class="phone-card-val" style="color:var(--emerald);font-size:14px;">Connected</div>
-                        <div class="phone-rate-change">&lt;1s</div>
-                    </div>
-                </div>
-                <div class="phone-btn" data-i18n="phoneSend">SEND MONEY</div>
+        <div class="hero-inner">
+            <!-- Massive headline — phone overlaps this -->
+            <div class="hero-headline">
+                <h1 class="reveal">USD <span class="arrow">→</span> COP</h1>
+                <div class="hero-sub reveal reveal-d1" data-i18n="heroSub">al instante</div>
             </div>
-        </div>
 
-        <div class="hero-cta-row reveal reveal-d3">
-            <button class="btn-gold" data-i18n="heroCta"
-                onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the
-                Beta</button>
-            <button class="btn-ghost" data-i18n="heroGhost"
-                onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</button>
+            <div class="hero-bottom">
+                <div class="reveal reveal-d2">
+                    <p class="hero-desc" data-i18n="heroDesc">The fastest USD-to-COP corridor. Powered by Bre-B instant
+                        rails. Move money between the US and Colombia in under 1 second.</p>
+                    <div class="hero-cta-row">
+                        <button class="btn-gold" data-i18n="heroCta"
+                            onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the
+                            Beta</button>
+                        <button class="btn-ghost" data-i18n="heroGhost"
+                            onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it
+                            works</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Device Scene — overlaps the giant text -->
+            <div class="hero-device-scene">
+                <div class="hero-glow-1"></div>
+                <div class="hero-glow-2"></div>
+
+                <!-- TRUE 3D Phone with sides -->
+                <div class="phone-mockup reveal reveal-d2">
+                    <!-- Back face -->
+                    <div class="phone-back"></div>
+                    <!-- Side edges -->
+                    <div class="phone-side-left"></div>
+                    <div class="phone-side-top"></div>
+                    <div class="phone-side-bottom"></div>
+                    <!-- Volume buttons (visible on left edge) -->
+                    <div class="phone-vol-btn phone-vol-1"></div>
+                    <div class="phone-vol-btn phone-vol-2"></div>
+                    <div class="phone-vol-btn phone-vol-3"></div>
+                    <!-- Front face (screen) -->
+                    <div class="phone-front">
+                        <div class="phone-island"></div>
+                        <div class="phone-screen">
+                            <!-- Green header bar matching mockup -->
+                            <div
+                                style="background:linear-gradient(135deg,#0d6b3d,#10b981);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center;">
+                                <div
+                                    style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white"
+                                        stroke-width="2.5">
+                                        <path d="M20 6L9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <div
+                                    style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;">
+                                    USD → COP</div>
+                            </div>
+                            <div class="phone-header">
+                                <div class="phone-logo">Lana<span>Ya</span></div>
+                                <div class="phone-badge"><span class="phone-pulse"></span> Live</div>
+                            </div>
+                            <div class="phone-card"
+                                style="background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.15);">
+                                <div class="phone-card-label">USD · COP</div>
+                                <div class="phone-card-row">
+                                    <div class="phone-card-val" id="phoneRate">3,985<span class="unit">COP</span></div>
+                                    <div class="phone-rate-change">▲ 0.3%</div>
+                                </div>
+                            </div>
+                            <div class="phone-card">
+                                <div class="phone-card-label">USD 0,0000 COP</div>
+                                <div class="phone-card-row">
+                                    <div class="phone-card-val" style="font-size:13px;">+ 1,500,000.00 COP</div>
+                                </div>
+                            </div>
+                            <div class="phone-card">
+                                <div class="phone-card-label" style="text-align:center;">USD · COP</div>
+                            </div>
+                            <div class="phone-btn" style="background:var(--emerald);" data-i18n="phoneSend">Send</div>
+                            <div class="phone-home-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Credit Card -->
+                <div class="credit-card reveal reveal-d3">
+                    <div class="card-face">
+                        <div class="card-brand" style="color:#fff;">Lana<span style="color:var(--emerald);">Ya</span>
+                        </div>
+                        <div
+                            style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">
+                            Credits</div>
+                        <div class="card-chip"></div>
+                        <div class="card-contactless"></div>
+                        <div class="card-number">•••• •••• •••• 4820</div>
+                        <div class="card-bottom">
+                            <div>
+                                <div class="card-holder">Cardholder name</div>
+                                <div class="card-holder-name">not disclosed</div>
+                            </div>
+                            <div class="card-network">
+                                <div class="card-network-circle"></div>
+                                <div class="card-network-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1061,6 +1643,7 @@ const T = {
   en: {
     navHow:'How it works', navTrust:'Security', navTeam:'Team', navCta:'JOIN WAITLIST',
     heroSub:'al instante',
+    heroDesc:'The fastest USD-to-COP corridor. Powered by Bre-B instant rails. Move money between the US and Colombia in under 1 second.',
     heroCta:'JOIN THE BETA', heroGhost:'How it works',
     phoneSend:'SEND MONEY',
     howTag:'How it Works', howTitle:'Three steps.<br>Under one second.',
@@ -1083,6 +1666,7 @@ const T = {
   es: {
     navHow:'Cómo funciona', navTrust:'Seguridad', navTeam:'Equipo', navCta:'ÚNETE',
     heroSub:'al instante',
+    heroDesc:'El corredor USD-COP más rápido. Impulsado por rieles instantáneos Bre-B. Mueve dinero entre EE.UU. y Colombia en menos de 1 segundo.',
     heroCta:'ÚNETE A LA BETA', heroGhost:'Cómo funciona',
     phoneSend:'ENVIAR DINERO',
     howTag:'Cómo Funciona', howTitle:'Tres pasos.<br>Menos de un segundo.',
